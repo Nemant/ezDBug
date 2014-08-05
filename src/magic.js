@@ -1,6 +1,6 @@
-var x = document.createElement('script');
-x.src = 'http://example.com/test.js';
-document.getElementsByTagName("head")[0].appendChild(x);
+//var x = document.createElement('script');
+//x.src = 'http://example.com/test.js';
+//document.getElementsByTagName("head")[0].appendChild(x);
 
 var magic = _getParameterByName('magic');
 if (magic == "true") {
@@ -46,7 +46,7 @@ function addStyle() {
             cssElementNew[i] = document.createElement("link");
             cssElementNew[i].type = "text/css";
             cssElementNew[i].rel = 'stylesheet';
-            cssElementNew[i].href = "http://10.10.14.29/static/iplayer/bigscreen/style/720/" + allElements[i] + ".css?v=1." + Math.floor(Math.random() * 100);
+            cssElementNew[i].href = "http://10.10.14.29/static/iplayer/bigscreen/style/540/" + allElements[i] + ".css?v=1." + Math.floor(Math.random() * 100);
             document.getElementsByTagName("head")[0].appendChild(cssElementNew[i]);
 
             if (cssElementOld[i]) {
@@ -57,7 +57,7 @@ function addStyle() {
     }, 5000);
 
     for (var i = 0; i < allElements.length; i++) {
-        _removeOrginalCSS("http://10.10.14.29/static/iplayer/bigscreen/style/720/" + allElements[i] + ".css");
+        _removeOrginalCSS("http://10.10.14.29/static/iplayer/bigscreen/style/540/" + allElements[i] + ".css");
     }
 }
 
