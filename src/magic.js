@@ -1,39 +1,45 @@
-//var x = document.createElement('script');
-//x.src = 'http://example.com/test.js';
-//document.getElementsByTagName("head")[0].appendChild(x);
+var ezDBug = {
+    init: function () {
+        var JSONDLibrary = document.createElement('script');
+        JSONDLibrary.type = "text/javascript";
+        JSONDLibrary.src = 'https://dl.dropboxusercontent.com/u/13398409/iplayer/ezDBug/src/JSOND.js';
+        document.body.appendChild(JSONDLibrary);
 
-var magic = _getParameterByName('magic');
-if (magic == "true") {
-    // autoRestart();
-    // doMagic();
+        var magic = this._getParameterByName('magic');
+        if (magic == "true") {
+            alert("magic is true!")
 
-    window.setTimeout(function () {
-        addHelperJS();
-        addStyle();
-    }, 10000);
-}
-
-function doMagic() {
-    window.setTimeout(function () {
-        var x = document.getElementsByClassName("rootwidget");
-        var y = x[0];
-        y.textContent = JSOND.stringify(antie);
-    }, 10000);
-}
-
-function addHelperJS() {
-    var js;
-    window.setInterval(function () {
-        if (js) {
-            document.body.removeChild(js);
+//            window.setTimeout(function () {
+//                addHelperJS();
+//                addStyle();
+//            }, 10000);
         }
 
-        js = document.createElement("script");
-        js.type = "text/javascript";
-        js.src = "https://dl.dropboxusercontent.com/u/13398409/iplayer/ezDBug/src/changeCSS.js";
-        document.body.appendChild(js);
-    }, 1000);
-}
+    },
+
+    _getParameterByName: function (name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    },
+
+    _addHelperJS: function () {
+        var js;
+        window.setInterval(function () {
+            if (js) {
+                document.body.removeChild(js);
+            }
+
+            js = document.createElement("script");
+            js.type = "text/javascript";
+            js.src = "https://dl.dropboxusercontent.com/u/13398409/iplayer/ezDBug/src/changeCSS.js";
+            document.body.appendChild(js);
+        }, 1000);
+    }
+
+};
+
 
 function addStyle() {
     // var allElements = ["leftClamped", "modalContentContainer", "standardContent", "AnimationContainer", "nowwatching"];
@@ -61,30 +67,6 @@ function addStyle() {
     }
 }
 
-function autoRestart() {
-    var js;
-    window.setInterval(function () {
-        if (js) {
-            document.body.removeChild(js);
-        }
-
-        js = document.createElement("script");
-        js.type = "text/javascript";
-        js.src = "https://dl.dropboxusercontent.com/u/13398409/iplayer/ezDBug/src/restart.js";
-        document.body.appendChild(js);
-
-        if (restart == "y") {
-            window.location.href = "http://10.10.14.68/iplayer/bigscreen/?config=qa&magic=true";
-        }
-    }, 1000);
-}
-
-function _getParameterByName(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
 
 function _searchCSS(url) {
     var allStyles = document.getElementsByTagName("head")[0].getElementsByTagName("link");
@@ -105,3 +87,5 @@ function _removeOrginalCSS(url) {
         }
     }
 }
+
+ezDBug.init();
