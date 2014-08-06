@@ -1,4 +1,5 @@
-var JSOND = {};
+var JSOND = JSOND || {};
+// Credit: http://www.sitepoint.com/javascript-json-serialization/
 // implement JSON.stringify serialization
 JSOND.stringify = JSOND.stringify || function (obj) {
     var t = typeof(obj);

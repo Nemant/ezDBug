@@ -1,4 +1,11 @@
 try {
+
+//    Add JSOND for devices that don't have the JSON library
+//    var JSONDLibrary = document.createElement('script');
+//    JSONDLibrary.type = "text/javascript";
+//    JSONDLibrary.src = 'https://dl.dropboxusercontent.com/u/13398409/iplayer/ezDBug/src/JSOND.js';
+//    document.body.appendChild(JSONDLibrary);
+
 //    function doMagic() {
 //        window.setTimeout(function () {
 //            var x = document.getElementsByClassName("rootwidget");

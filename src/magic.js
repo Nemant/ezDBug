@@ -1,18 +1,13 @@
 var ezDBug = {
     init: function () {
-        var JSONDLibrary = document.createElement('script');
-        JSONDLibrary.type = "text/javascript";
-        JSONDLibrary.src = 'https://dl.dropboxusercontent.com/u/13398409/iplayer/ezDBug/src/JSOND.js';
-        document.body.appendChild(JSONDLibrary);
-
         var magic = this._getParameterByName('magic');
         if (magic == "true") {
             alert("magic is true!")
 
-//            window.setTimeout(function () {
-//                addHelperJS();
+            window.setTimeout(function () {
+                this.addHelperJS();
 //                addStyle();
-//            }, 10000);
+            }, 10000);
         }
 
     },
@@ -24,7 +19,7 @@ var ezDBug = {
         return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     },
 
-    _addHelperJS: function () {
+    _addYourScript: function () {
         var js;
         window.setInterval(function () {
             if (js) {
@@ -33,13 +28,11 @@ var ezDBug = {
 
             js = document.createElement("script");
             js.type = "text/javascript";
-            js.src = "https://dl.dropboxusercontent.com/u/13398409/iplayer/ezDBug/src/changeCSS.js";
+            js.src = "https://dl.dropboxusercontent.com/u/13398409/iplayer/ezDBug/src/yourScript.js";
             document.body.appendChild(js);
         }, 1000);
     }
-
 };
-
 
 function addStyle() {
     // var allElements = ["leftClamped", "modalContentContainer", "standardContent", "AnimationContainer", "nowwatching"];
@@ -64,17 +57,6 @@ function addStyle() {
 
     for (var i = 0; i < allElements.length; i++) {
         _removeOrginalCSS("http://10.10.14.29/static/iplayer/bigscreen/style/540/" + allElements[i] + ".css");
-    }
-}
-
-
-function _searchCSS(url) {
-    var allStyles = document.getElementsByTagName("head")[0].getElementsByTagName("link");
-    for (var i = 0; i < allStyles.length; i++) {
-        var styleSheet = allStyles[i];
-        if (styleSheet.getAttribute("href") === url) {
-            document.getElementById("playerMenuSynopsis").textContent = url;
-        }
     }
 }
 
