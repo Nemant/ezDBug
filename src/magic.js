@@ -1,18 +1,16 @@
 var ezDBug = {
     init: function () {
-        var magic = this._getParameterByName('magic');
+        var magic = this._getQueryStringParameter('magic');
         if (magic == "true") {
-            alert("magic is true!")
-
+            var self = this;
             window.setTimeout(function () {
-                this.addHelperJS();
-//                addStyle();
-            }, 10000);
+                self._addYourScript();
+                self._startWatchingCSSFiles();
+            }, 1000);
         }
-
     },
 
-    _getParameterByName: function (name) {
+    _getQueryStringParameter: function (name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
             results = regex.exec(location.search);
@@ -28,46 +26,48 @@ var ezDBug = {
 
             js = document.createElement("script");
             js.type = "text/javascript";
-            js.src = "https://dl.dropboxusercontent.com/u/13398409/iplayer/ezDBug/src/yourScript.js";
+//            js.src = "https://dl.dropboxusercontent.com/u/13398409/iplayer/ezDBug/src/yourScript.js";
+            js.src = "yourScript.js";
             document.body.appendChild(js);
         }, 1000);
-    }
-};
+    },
 
-function addStyle() {
-    // var allElements = ["leftClamped", "modalContentContainer", "standardContent", "AnimationContainer", "nowwatching"];
-    var allElements = ["episodeContent", "standardContent"];
-    var cssElementOld = [];
-    var cssElementNew = [];
+    _startWatchingCSSFiles: function () {
+        // var allElements = ["leftClamped", "modalContentContainer", "standardContent", "AnimationContainer", "nowwatching"];
+        var allElements = ["episodeContent", "standardContent"];
+        var cssElementOld = [];
+        var cssElementNew = [];
 
-    window.setInterval(function () {
-        for (var i = 0; i < allElements.length; i++) {
-            cssElementNew[i] = document.createElement("link");
-            cssElementNew[i].type = "text/css";
-            cssElementNew[i].rel = 'stylesheet';
-            cssElementNew[i].href = "http://10.10.14.29/static/iplayer/bigscreen/style/540/" + allElements[i] + ".css?v=1." + Math.floor(Math.random() * 100);
-            document.getElementsByTagName("head")[0].appendChild(cssElementNew[i]);
+//        window.setInterval(function () {
+            for (var i = 0; i < allElements.length; i++) {
+                cssElementNew[i] = document.createElement("link");
+                cssElementNew[i].type = "text/css";
+                cssElementNew[i].rel = 'stylesheet';
+                cssElementNew[i].href = "http://10.10.14.29/static/iplayer/bigscreen/style/540/" + allElements[i] + ".css?v=1." + Math.floor(Math.random() * 100);
+                document.getElementsByTagName("head")[0].appendChild(cssElementNew[i]);
 
-            if (cssElementOld[i]) {
-                document.getElementsByTagName("head")[0].removeChild(cssElementOld[i]);
+                if (cssElementOld[i]) {
+                    document.getElementsByTagName("head")[0].removeChild(cssElementOld[i]);
+                }
+                cssElementOld[i] = cssElementNew[i];
             }
-            cssElementOld[i] = cssElementNew[i];
-        }
-    }, 5000);
+//        }, 500000000);
 
-    for (var i = 0; i < allElements.length; i++) {
-        _removeOrginalCSS("http://10.10.14.29/static/iplayer/bigscreen/style/540/" + allElements[i] + ".css");
-    }
-}
+        for (var i = 0; i < allElements.length; i++) {
+            this._removeOrginalCSS("http://10.10.14.29/static/iplayer/bigscreen/style/540/" + allElements[i] + ".css");
+        }
+    },
 
-function _removeOrginalCSS(url) {
-    var allStyles = document.getElementsByTagName("head")[0].getElementsByClassName("added-by-antie");
-    for (var i = 0; i < allStyles.length; i++) {
-        var styleSheet = allStyles[i];
-        if (styleSheet.textContent.match(url)) {
-            document.getElementsByTagName("head")[0].removeChild(styleSheet);
+    _removeOrginalCSS: function (url) {
+        var allStyles = document.getElementsByTagName("head")[0].getElementsByClassName("added-by-antie");
+        for (var i = 0; i < allStyles.length; i++) {
+            var styleSheet = allStyles[i];
+            if (styleSheet.textContent.match(url)) {
+                document.getElementsByTagName("head")[0].removeChild(styleSheet);
+            }
         }
     }
-}
+
+};
 
 ezDBug.init();

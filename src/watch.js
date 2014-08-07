@@ -1,5 +1,6 @@
 var fs = require('fs');
 
+// chokidar: https://github.com/paulmillr/chokidar
 var chokidar = require('chokidar');
 var watcher = chokidar.watch('trunk', {ignored: /[\/\\]\./, persistent: true});
 
