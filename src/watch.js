@@ -1,34 +1,17 @@
-var fs = require('fs');
-
 // chokidar: https://github.com/paulmillr/chokidar
+
+var fs = require('fs');
 var chokidar = require('chokidar');
-var watcher = chokidar.watch('trunk', {ignored: /[\/\\]\./, persistent: true});
+var watcher = chokidar.watch('../../', {ignored: /[\/\\]\. | *.js/, persistent: true});
 
 watcher
-    .on('add', function (path) {
-        console.log('File', path, 'has been added');
-    })
-    .on('addDir', function (path) {
-        console.log('Directory', path, 'has been added');
-    })
     .on('change', function (path) {
         console.log('File', path, 'has been changed');
-        var stream = fs.createWriteStream("restart.js");
+        var stream = fs.createWriteStream("recentlyChangedCSSFiles.js");
         stream.once('open', function (fd) {
-            stream.write("filename=" + path);
+            stream.write("ezDBug._changedCSSFilePath=" + path.replace("../../",""));
             stream.write("\n");
-            stream.write("restart=" + Math.floor(Math.random() * 1000));
+            stream.write("ezDBug._timestamp=" + new Date().getTime());
             stream.end();
         })
-            .on('unlink', function (path) {
-                console.log('File', path, 'has been removed');
-            })
-            .on('unlinkDir', function (path) {
-                console.log('Directory', path, 'has been removed');
-            })
-            .on('error', function (error) {
-                console.error('Error happened', error);
-            })
-
-
     });
