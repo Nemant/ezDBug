@@ -6,7 +6,6 @@ var ezDBug = {
 //			var self = this;
 //			window.setTimeout(function () {
 //				self._addYourScript();
-//				self._startWatchingCSSFiles();
 //			}, 1000);
 //		}
         var self = this;
@@ -16,7 +15,7 @@ var ezDBug = {
             console.log(paths.styleSheetPath);
 //            self._addYourScript(paths.debuggerPath);
             var stylesHashTable = self._getStylesHashTable(paths.styleSheetPath);
-            self._readRestartFile(paths.debuggerPath);
+            self._startWatchingCSSFiles(paths.debuggerPath, paths.styleSheetPath, stylesHashTable);
         }, 5000);
     },
 
@@ -55,17 +54,6 @@ var ezDBug = {
         return stylesHashTable;
     },
 
-    _readRestartFile: function (debuggerPath) {
-        var js = document.createElement("script");
-        js.type = "text/javascript";
-        js.src = debuggerPath + "restart.js"
-        js.onload = function () {
-            console.log(ezDBug._changedCSSFile);
-        }
-
-        document.body.appendChild(js);
-    },
-
     _getQueryStringParameter: function (name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -87,29 +75,31 @@ var ezDBug = {
         }, 1000);
     },
 
-    _startWatchingCSSFiles: function () {
-        // var allElements = ["leftClamped", "modalContentContainer", "standardContent", "AnimationContainer", "nowwatching"];
-        var allElements = ["episodeContent", "standardContent"];
-        var cssElementOld = [];
-        var cssElementNew = [];
+    _startWatchingCSSFiles: function (debuggerPath, styleSheetPath, stylesHashTable) {
+        var self = this;
+        var js;
+        var lastTimestamp = 0;
+        window.setInterval(function () {
+                // Read the recentlyChangedCSSFiles.css file
+                if (js) {
+                    document.body.removeChild(js);
+                }
 
-//        window.setInterval(function () {
-        for (var i = 0; i < allElements.length; i++) {
-            cssElementNew[i] = document.createElement("link");
-            cssElementNew[i].type = "text/css";
-            cssElementNew[i].rel = 'stylesheet';
-            cssElementNew[i].href = "http://10.10.14.29/static/iplayer/bigscreen/style/540/" + allElements[i] + ".css?v=1." + Math.floor(Math.random() * 100);
-            document.getElementsByTagName("head")[0].appendChild(cssElementNew[i]);
+                js = document.createElement("script");
+                js.type = "text/javascript";
+                js.src = debuggerPath + "recentlyChangedCSSFiles.css"
+                js.onload = function () {
+                    self._updatePageCSS(styleSheetPath, stylesHashTable, lastTimestamp, ezDBug._timestamp);
+                    lastTimestamp = ezDBug._timestamp;
+                };
+                document.body.appendChild(js);
+            },
+            500);
+    },
 
-            if (cssElementOld[i]) {
-                document.getElementsByTagName("head")[0].removeChild(cssElementOld[i]);
-            }
-            cssElementOld[i] = cssElementNew[i];
-        }
-//        }, 500000000);
-
-        for (var i = 0; i < allElements.length; i++) {
-            this._removeOrginalCSS("http://10.10.14.29/static/iplayer/bigscreen/style/540/" + allElements[i] + ".css");
+    _updatePageCSS: function (styleSheetPath, stylesHashTable, lastTimestamp, currentTimestamp) {
+        if (lastTimestamp !== currentTimestamp) {
+            // Update hashmap stuff
         }
     },
 
