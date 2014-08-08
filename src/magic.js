@@ -16,6 +16,7 @@ var ezDBug = {
             console.log(paths.styleSheetPath);
 //            self._addYourScript(paths.debuggerPath);
             var stylesHashTable = self._getStylesHashTable(paths.styleSheetPath);
+            self._readRestartFile(paths.debuggerPath);
         }, 5000);
     },
 
@@ -52,6 +53,17 @@ var ezDBug = {
         }
 
         return stylesHashTable;
+    },
+
+    _readRestartFile: function (debuggerPath) {
+        var js = document.createElement("script");
+        js.type = "text/javascript";
+        js.src = debuggerPath + "restart.js"
+        js.onload = function () {
+            console.log(ezDBug._changedCSSFile);
+        }
+
+        document.body.appendChild(js);
     },
 
     _getQueryStringParameter: function (name) {
