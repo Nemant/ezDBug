@@ -3,9 +3,9 @@ var ezDBug = {
 	init: function () {
 //		var magic = this._getQueryStringParameter('magic');
 //		if (magic == "true") {
-//			var self = this;
+			var self = this;
 //			window.setTimeout(function () {
-//				self._addYourScript();
+				self._addYourScript();
 //				self._startWatchingCSSFiles();
 //			}, 1000);
 //		}
@@ -25,23 +25,29 @@ var ezDBug = {
 			if (scripts[i].src.match("magic.js")) {
 				ezDBug.debuggerAddress = scripts[i].src.replace('magic.js', '');
 				ezDBug.styleAddress = scripts[i].src.replace('ezDBug/src/magic.js', '');
+                break;
 			}
 		}
 	},
 
 	_getStylesHashTable: function (address) {
-		var links = document.getElementsByTagName('link');
-		ezDBug.styleHashtable = {};
+        ezDBug.styleHashtable = {};
+
+        var links = document.getElementsByTagName('link');
 		for (var i = 0; i < links.length; i++) {
 			if (links[i].href.match(address)) {
-				ezDBug.styleHashtable[links[i].href] = links[i];
+                var linkFullAddress = links[i].href;
+                var linkRelativeAddress = linkFullAddress.replace(address, '');
+                ezDBug.styleHashtable[linkRelativeAddress] = links[i];
 			}
 		}
+
 		var styles = document.getElementsByTagName('style');
-		ezDBug.styleHashtable = {};
 		for (var i = 0; i < styles.length; i++) {
 			if (styles[i].textContent.match(address)) {
-				ezDBug.styleHashtable[styles[i].textContent.match(/@import url\(\"(.*)\"\)/)[1]] = styles[i];
+                var styleFullAddress = styles[i].textContent.match(/@import url\(\"(.*)\"\)/)[1];
+                var styleRelativeAddress = styleFullAddress.replace(address, '');
+				ezDBug.styleHashtable[styleRelativeAddress] = styles[i];
 			}
 		}
 	},
@@ -62,8 +68,7 @@ var ezDBug = {
 
 			js = document.createElement("script");
 			js.type = "text/javascript";
-//            js.src = "https://dl.dropboxusercontent.com/u/13398409/iplayer/ezDBug/src/yourScript.js";
-			js.src = "yourScript.js";
+            js.src = ezDBug.debuggerAddress + "yourScript.js";
 			document.body.appendChild(js);
 		}, 1000);
 	},
