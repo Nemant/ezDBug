@@ -3,9 +3,9 @@ var ezDBug = {
 	init: function () {
 //		var magic = this._getQueryStringParameter('magic');
 //		if (magic == "true") {
-			var self = this;
+//			var self = this;
 //			window.setTimeout(function () {
-				self._addYourScript();
+//				self._addYourScript();
 //				self._startWatchingCSSFiles();
 //			}, 1000);
 //		}
