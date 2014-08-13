@@ -13,9 +13,9 @@ var ezDBug = {
             var paths = self._getMagicAddress();
             console.log(paths.debuggerPath);
             console.log(paths.styleSheetPath);
-//            self._addYourScript(paths.debuggerPath);
+            self._addYourScript(paths.debuggerPath);
             var stylesHashTable = self._getStylesHashTable(paths.styleSheetPath);
-            self._startWatchingCSSFiles(paths.debuggerPath, paths.styleSheetPath, stylesHashTable);
+            self._startWatchingCSSFiles(paths.debuggerPath, stylesHashTable);
         }, 5000);
     },
 
@@ -75,7 +75,7 @@ var ezDBug = {
         }, 1000);
     },
 
-    _startWatchingCSSFiles: function (debuggerPath, styleSheetPath, stylesHashTable) {
+    _startWatchingCSSFiles: function (debuggerPath, stylesHashTable) {
         var self = this;
         var js;
         var lastTimestamp = 0;
@@ -87,9 +87,10 @@ var ezDBug = {
 
                 js = document.createElement("script");
                 js.type = "text/javascript";
-                js.src = debuggerPath + "recentlyChangedCSSFiles.css"
+                js.src = debuggerPath + "recentlyChangedCSSFiles.js"
+
                 js.onload = function () {
-                    self._updatePageCSS(styleSheetPath, stylesHashTable, lastTimestamp, ezDBug._timestamp);
+                    self._updatePageCSS(stylesHashTable, ezDBug._changedCSSFilePath, lastTimestamp, ezDBug._timestamp);
                     lastTimestamp = ezDBug._timestamp;
                 };
                 document.body.appendChild(js);
@@ -97,9 +98,9 @@ var ezDBug = {
             500);
     },
 
-    _updatePageCSS: function (styleSheetPath, stylesHashTable, lastTimestamp, currentTimestamp) {
+    _updatePageCSS: function (stylesHashTable, changedCSSFilePath, lastTimestamp, currentTimestamp) {
         if (lastTimestamp !== currentTimestamp) {
-            // Update hashmap stuff
+            console.log(stylesHashTable[changedCSSFilePath]);
         }
     },
 

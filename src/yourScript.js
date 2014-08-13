@@ -1,6 +1,6 @@
 try {
 
-    alert("yourScript loaded!");
+//    alert("yourScript loaded!");
 
     /* Add JSOND for devices that don't support the JSON library */
     function addJSOND() {
