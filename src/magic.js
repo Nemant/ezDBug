@@ -100,7 +100,15 @@ var ezDBug = {
 
     _updatePageCSS: function (stylesHashTable, changedCSSFilePath, lastTimestamp, currentTimestamp) {
         if (lastTimestamp !== currentTimestamp) {
-            console.log(stylesHashTable[changedCSSFilePath]);
+            var cssImportElement = stylesHashTable[changedCSSFilePath];
+            var cssLink;
+            if (cssImportElement.href) {
+                cssLink = cssImportElement.href;
+                cssImportElement.href = cssLink.replace(/(.*\.css).*/, "$1?v=" + Math.floor(Math.random() * 10000) + 1);
+            } else {
+                cssLink = cssImportElement.innerText;
+                cssImportElement.innerText = cssLink.replace(/(.*\.css).*/, "$1?v=" + Math.floor(Math.random() * 10000) + 1 + "\")");
+            }
         }
     },
 

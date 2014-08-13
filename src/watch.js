@@ -12,6 +12,7 @@ watcher
             stream.write("ezDBug._changedCSSFilePath=" + "\"" + path.replace("../../", "") + "\"");
             stream.write("\n");
             stream.write("ezDBug._timestamp=" + "\"" + new Date().getTime() + "\"");
+            stream.write("\n");
             stream.end();
         })
     });
