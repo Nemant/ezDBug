@@ -1,16 +1,16 @@
 var ezDBug = {
 
     init: function () {
-		var debugEnabled = this._getQueryStringParameter('ezdbug');
-		if (debugEnabled == "true") {
+//		var debugEnabled = this._getQueryStringParameter('ezdbug');
+//		if (debugEnabled == "true") {
             var self = this;
             window.setTimeout(function () {
                 var paths = self._getEZDBugPath();
                 self._addCustomisableScript(paths.debuggerPath);
                 var stylesHashTable = self._getStylesHashTable(paths.styleSheetPath);
                 self._startWatchingCSSFiles(paths.debuggerPath, stylesHashTable);
-            }, 5000);
-        }
+            }, 15000);
+//        }
     },
 
     _getQueryStringParameter: function (name) {
@@ -100,11 +100,22 @@ var ezDBug = {
 
             if (cssImportElement.href) {
                 cssLink = cssImportElement.href;
-                cssImportElement.href = cssLink.replace(regExpMatchingCSSLink, versionedFile);
+                cssLink = cssLink.replace(regExpMatchingCSSLink, versionedFile);
             } else {
                 cssLink = cssImportElement.innerText;
-                cssImportElement.innerText = cssLink.replace(regExpMatchingCSSLink, versionedFile + "\")");
+                cssLink = cssLink.replace(regExpMatchingCSSLink, versionedFile + "\")");
+                cssLink = cssLink.match(/import url\(\"(http.*)\"\)/)[1]
             }
+
+            var newCSSElement = document.createElement("link");
+            newCSSElement.type = "text/css";
+            newCSSElement.rel = 'stylesheet';
+            newCSSElement.href = cssLink;
+
+            document.getElementsByTagName("head")[0].insertBefore(newCSSElement, cssImportElement);
+            stylesHashTable[changedCSSFilePath] = newCSSElement;
+            document.getElementsByTagName("head")[0].removeChild(cssImportElement);
+
         }
     }
 };

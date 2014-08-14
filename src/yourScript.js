@@ -22,5 +22,8 @@ try {
 //    Restart the app
 //    window.location.href = "http://10.10.14.68/iplayer/bigscreen/?config=qa&magic=true";
 
+    var x = document.getElementById("topNavigationMenuItem1Title");
+    x.textContent = "test";
+
 } catch (e) {
 }
