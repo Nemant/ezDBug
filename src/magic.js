@@ -1,8 +1,9 @@
 var ezDBug = {
 
     init: function () {
+		"use strict";
 		var debugEnabled = this._getQueryStringParameter('ezdbug');
-		if (debugEnabled == "true") {
+		if (debugEnabled === "true") {
             var self = this;
             window.setTimeout(function () {
                 var paths = self._getEZDBugPath();
@@ -13,39 +14,45 @@ var ezDBug = {
         }
     },
 
-    _getQueryStringParameter: function (name) {
-        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-            results = regex.exec(location.search);
-        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    },
+	_getQueryStringParameter: function (name) {
+		"use strict";
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+			results = regex.exec(window.location.search);
+		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	},
 
-    _getEZDBugPath: function () {
-        var scripts = document.getElementsByTagName('script');
-        for (var i = 0; i < scripts.length; i++) {
-            if (scripts[i].src.match("magic.js")) {
-                var debuggerPath = scripts[i].src.replace('magic.js', '');
-                var styleSheetPath = scripts[i].src.replace('ezDBug/src/magic.js', '');
-                return {debuggerPath: debuggerPath, styleSheetPath: styleSheetPath}
-            }
-        }
-    },
+	_getEZDBugPath: function () {
+		"use strict";
+		var path = null;
+		var scripts = document.getElementsByTagName('script');
+		for (var i = 0; i < scripts.length; i++) {
+			if (scripts[i].src.match("magic.js")) {
+				var debuggerPath = scripts[i].src.replace('magic.js', '');
+				var styleSheetPath = scripts[i].src.replace('ezDBug/src/magic.js', '');
+				path = {debuggerPath: debuggerPath, styleSheetPath: styleSheetPath}
+			}
+		}
+		return path;
+	},
 
-    _addCustomisableScript: function (debuggerPath) {
-        var js;
-        window.setInterval(function () {
-            if (js) {
-                document.body.removeChild(js);
-            }
+	_addCustomisableScript: function (debuggerPath) {
+		"use strict";
+		var js;
+		window.setInterval(function () {
+			if (js) {
+				document.body.removeChild(js);
+			}
 
-            js = document.createElement("script");
-            js.type = "text/javascript";
-            js.src = debuggerPath + "yourScript.js?v=" + Math.floor(Math.random() * 10000) + 1;
-            document.body.appendChild(js);
-        }, 1000);
-    },
+			js = document.createElement("script");
+			js.type = "text/javascript";
+			js.src = debuggerPath + "yourScript.js?v=" + Math.floor(Math.random() * 10000) + 1;
+			document.body.appendChild(js);
+		}, 1000);
+	},
 
     _getStylesHashTable: function (styleSheetPath) {
+		"use strict";
         var stylesHashTable = {};
 
         var links = document.getElementsByTagName('link');
@@ -58,11 +65,11 @@ var ezDBug = {
         }
 
         var styles = document.getElementsByTagName('style');
-        for (var i = 0; i < styles.length; i++) {
-            if (styles[i].textContent.match(styleSheetPath)) {
-                var styleFullAddress = styles[i].textContent.match(/@import url\(\"(.*)\"\)/)[1];
+        for (var j = 0; j < styles.length; j++) {
+            if (styles[j].textContent.match(styleSheetPath)) {
+                var styleFullAddress = styles[j].textContent.match(/@import url\(\"(.*)\"\)/)[1];
                 var styleRelativeAddress = styleFullAddress.replace(styleSheetPath, '');
-                stylesHashTable[styleRelativeAddress] = styles[i];
+                stylesHashTable[styleRelativeAddress] = styles[j];
             }
         }
 
@@ -70,6 +77,7 @@ var ezDBug = {
     },
 
     _startWatchingCSSFiles: function (debuggerPath, stylesHashTable) {
+		"use strict";
         var self = this;
         var js;
         var lastTimestamp = 0;
@@ -92,6 +100,7 @@ var ezDBug = {
     },
 
     _updatePageCSS: function (stylesHashTable, changedCSSFilePath, lastTimestamp, currentTimestamp) {
+		"use strict";
         if (lastTimestamp !== currentTimestamp) {
             var cssImportElement = stylesHashTable[changedCSSFilePath];
             var cssLink;
