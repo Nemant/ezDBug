@@ -1,6 +1,5 @@
 try {
 
-//    alert("yourScript loaded!");
 
     /* Add JSOND for devices that don't support the JSON library */
     function addJSOND() {
@@ -18,7 +17,9 @@ try {
             y.textContent = JSOND.stringify(antie);
         }, 10000);
     }
-
+//	addJSOND();
+//	printConfigToScreen();
+//	  document.getElementById("homeContentItem4").style.display = "none";
 //    Restart the app
 //    window.location.href = "http://10.10.14.68/iplayer/bigscreen/?config=qa&magic=true";
 
