@@ -21,7 +21,8 @@ try {
 //	printConfigToScreen();
 //	  document.getElementById("homeContentItem4").style.display = "none";
 //    Restart the app
-//    window.location.href = "http://10.10.14.68/iplayer/bigscreen/?config=qa&magic=true";
-
+//    window.location.href = "http://10.10.14.29/iplayer/bigscreen/?config=qa&ezdbug=true";
+//    window.location.href = "http://pal.sandbox.dev.bbc.co.uk/iplayer/bigscreen/?brand=default&model=webkit&config=qa&ezdbug=true";
+//
 } catch (e) {
 }
