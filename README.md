@@ -1,23 +1,23 @@
 ezDBug
 ======
-What is it ?
+## What is it ?
 HTML/CSS/JS Remote Debugger for crap devices
 
-How is it works?
+## How is it works?
 It is constantly looking for changes on your sandbox and updating the css.
 
 ![alt tag](https://raw.githubusercontent.com/Nemant/ezDBug/master/README/leanAgile.png)
 
-How to use it?
+## How to use it?
 1.Download it from github to to the root of your style folder
 
 2.Require “execute.js”
 
 3.Install node and chokidar [github.com/paulmillr/chokidar] and run “watch.js”
 
-$ npm install chokidar
+` $ npm install chokidar `
 
-$ node watch.js
+` $ node watch.js `
 
 Why it is better css debugger?
 
