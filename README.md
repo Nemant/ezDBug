@@ -19,11 +19,11 @@ It is constantly looking for changes on your sandbox and updating the css.
 
 ` $ node watch.js `
 
-Why it is better css debugger?
+#### Why it is better css debugger?
 
 It is work with most browsers and more stable in compare with other css debuggers
 
-Why is it better js debugger
+#### Why is it better js debugger
 
 It is support all the devices and compatibel with all versions of javascript
  
